@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#102433" />
+  <title>FAI Registre Incidents — Démo synthétique</title>
+  <link rel="icon" href="/allsolutions-logo.png" type="image/png" />
+  <link rel="stylesheet" href="/src/styles.css" />
+</head>
+<body>
+  <div id="app" class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="Accueil FAI Registre"><img class="company-logo" src="/allsolutions-logo.png" alt="AllSolutions" /></a>
+      <nav class="nav"><a class="nav-item active" href="#dashboard"><span class="nav-icon">▦</span>Vue d’ensemble</a><a class="nav-item" href="#registre"><span class="nav-icon">≡</span>Registre incidents</a><a class="nav-item" href="#qualite"><span class="nav-icon">◇</span>Qualité des données</a></nav>
+      <div class="sidebar-foot"><span class="pulse"></span><span>Mode hors ligne actif</span><small>FAI AllSolutions · DÉMO SYNTHÉTIQUE · v1.0</small></div>
+    </aside>
+    <main class="main-content">
+      <header class="topbar"><div><p class="eyebrow">CENTRE D’EXPLOITATION RÉSEAU</p><h1>Registre d’incidents</h1><p class="muted">Pilotez les plaintes, les escalades et les engagements SLA.</p></div><div class="top-actions"><label class="search"><span>⌕</span><input id="globalSearch" placeholder="Rechercher un incident…" /></label><button class="btn btn-ghost" id="generatePdf">▣ Rapport PDF</button><button class="btn btn-primary" id="newIncident">＋ Nouvel incident</button></div></header>
+      <section id="dashboard" class="page-section">
+        <div id="kpis" class="kpi-grid"></div>
+        <div id="qualityBanner"></div>
+        <div class="section-heading"><div><p class="eyebrow">SITUATION</p><h2>Lecture opérationnelle</h2></div><span id="updatedAt" class="muted"></span></div>
+        <div class="analytics-grid"><article class="panel chart-panel"><div class="panel-head"><div><h3>Répartition par statut</h3><p class="muted">État courant des incidents</p></div><span class="panel-mark cyan">●</span></div><div id="statusChart" class="bars"></div></article><article class="panel chart-panel"><div class="panel-head"><div><h3>Priorités SLA</h3><p class="muted">Niveau d’urgence des tickets</p></div><span class="panel-mark coral">!</span></div><div id="priorityChart" class="bars"></div></article><article class="panel attention-panel"><div class="panel-head"><div><h3>À surveiller</h3><p class="muted">Les actions qui méritent votre attention</p></div></div><div id="attentionList" class="attention-list"></div></article></div>
+      </section>
+      <section id="analytics" class="page-section"><div class="section-heading"><div><p class="eyebrow">ANALYTIQUE</p><h2>Analyse opérationnelle</h2><p class="muted">Tendances, catégories dominantes et respect SLA par priorité.</p></div></div><div class="analytics-deep-grid"><article class="panel chart-panel"><div class="panel-head"><div><h3>Tendance des ouvertures</h3><p class="muted">7 derniers jours de la base</p></div></div><div id="trendChart" class="bars"></div></article><article class="panel chart-panel"><div class="panel-head"><div><h3>Catégories dominantes</h3><p class="muted">Top catégories d’incident</p></div></div><div id="categoryChart" class="bars"></div></article><article class="panel chart-panel"><div class="panel-head"><div><h3>SLA par priorité</h3><p class="muted">Respecté vs hors SLA</p></div></div><div id="slaPriorityChart" class="bars"></div></article></div></section>
+      <section id="registre" class="page-section"><div class="section-heading"><div><p class="eyebrow">OPÉRATIONS</p><h2>Registre des incidents</h2><p id="resultCount" class="muted"></p></div><div class="section-actions"><button class="btn btn-ghost" id="exportCsv">⇩ Exporter CSV</button></div></div><div class="filterbar"><label class="filter-search"><span>⌕</span><input id="tableSearch" placeholder="Client, équipement, IP, cause…" /></label><select id="statusFilter"><option value="">Tous les statuts</option></select><select id="priorityFilter"><option value="">Toutes les priorités</option></select><select id="slaFilter"><option value="">Tous les SLA</option><option value="En retard">En retard</option><option value="Oui">Respecté</option><option value="En cours">En cours</option></select><button class="btn btn-ghost" id="resetFilters">Réinitialiser</button></div><div class="panel table-panel"><div class="table-scroll"><table><thead><tr><th data-sort="id">Incident ↕</th><th data-sort="dateOuverture">Ouverture ↕</th><th>Client / équipement</th><th data-sort="priorite">Priorité ↕</th><th data-sort="statut">Statut ↕</th><th data-sort="slaRespecte">SLA ↕</th><th>Responsable</th><th></th></tr></thead><tbody id="incidentRows"></tbody></table></div><div id="emptyState" class="empty-state hidden">Aucun incident ne correspond aux filtres actifs.</div></div></section>
+      <section id="qualite" class="page-section"><div class="section-heading"><div><p class="eyebrow">CONTRÔLE</p><h2>Qualité des données</h2><p class="muted">Les alertes sont calculées à partir des règles métier du registre.</p></div></div><div id="qualityCards" class="quality-grid"></div></section>
+    </main>
+  </div>
+  <div id="drawer" class="drawer-backdrop hidden"><aside class="drawer"><div class="drawer-head"><div><p class="eyebrow" id="drawerEyebrow">FICHE INCIDENT</p><h2 id="drawerTitle">Nouvel incident</h2></div><button class="icon-btn" id="closeDrawer">×</button></div><form id="incidentForm"><input type="hidden" id="editIndex" /><div class="form-grid"><label>Client / utilisateur<input id="fClient" required /></label><label>Code client<input id="fCodeClient" /></label><label>Date ouverture<input id="fDate" type="date" required /></label><label>Heure<input id="fTime" type="time" required /></label><label>Source plainte<select id="fSource"></select></label><label>Site / AP<input id="fSite" /></label><label>Équipement impacté<input id="fEquipement" /></label><label>Nature équipement<select id="fNature"><option>Antenne</option><option>Routeur</option><option>Serveur</option></select></label><label>IP / Accès<input id="fIp" /></label><label>Localisation<input id="fLocalisation" /></label><label>Catégorie<select id="fCategorie"></select></label><label>Priorité<select id="fPriorite"></select></label><label>Responsable<select id="fResponsable"></select></label><label>Statut<select id="fStatut"></select></label><label class="full">Cause racine<input id="fCause" /></label><label class="full">Action corrective<input id="fAction" /></label><label>Escalade<select id="fEscalade"></select></label><label class="full">Commentaires<textarea id="fCommentaires" rows="3"></textarea></label></div><div id="formErrors" class="form-errors"></div><div class="drawer-foot"><button type="button" class="btn btn-ghost" id="cancelForm">Annuler</button><button type="submit" class="btn btn-primary">Enregistrer</button></div></form></aside></div>
+  <div id="toast" class="toast hidden"></div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
