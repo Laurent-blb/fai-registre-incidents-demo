@@ -4,6 +4,23 @@
 
 Le registre exige désormais une session Supabase avant d’afficher les incidents. La table `incidents` n’autorise que les utilisateurs authentifiés.
 
+L’inscription libre est désactivée dans l’interface : seuls les comptes invités par l’administrateur doivent être utilisés.
+
+### Inviter un utilisateur
+
+Depuis Supabase : **Authentication → Users → Invite user**, saisir l’adresse email puis envoyer l’invitation. L’utilisateur ouvre le lien reçu, définit son mot de passe si nécessaire, puis revient sur le registre pour se connecter.
+
+Dans **Authentication → Providers → Email**, désactiver **Allow new users to sign up** si l’option est disponible. Ne pas désactiver la confirmation email si vous voulez continuer à vérifier les adresses.
+
+Dans **Authentication → URL Configuration**, définir :
+
+```text
+Site URL: https://laurent-blb.github.io/fai-registre-incidents-demo/
+Redirect URL: https://laurent-blb.github.io/fai-registre-incidents-demo/
+```
+
+Cela évite les redirections vers `http://localhost:3000`. Si un email n’arrive pas, vérifier d’abord que l’adresse n’existe pas déjà, le dossier spam, puis **Authentication → Logs → Auth logs** et les limites d’envoi de l’offre Supabase.
+
 ## Rôles
 
 La migration [`supabase/schema.sql`](./supabase/schema.sql) crée :

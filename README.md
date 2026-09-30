@@ -5,6 +5,7 @@ Registre d’incidents FAI avec tableau de bord, export CSV/PDF et stockage part
 ## Fonctionnement
 
 - **Authentification obligatoire** : les incidents et indicateurs ne sont visibles qu’après connexion.
+- **Inscription contrôlée** : les nouveaux utilisateurs sont invités par l’administrateur depuis Supabase.
 - **Rôles protégés** : les utilisateurs gèrent leurs propres tickets ; les administrateurs gèrent tous les tickets.
 - **Stockage partagé** : les incidents sont enregistrés dans PostgreSQL via Supabase, et non plus uniquement dans le navigateur.
 - **Mode de secours** : les données synthétiques restent visibles si la base n’est pas encore initialisée ou temporairement indisponible.
@@ -19,6 +20,8 @@ Registre d’incidents FAI avec tableau de bord, export CSV/PDF et stockage part
 6. Dans **Authentication → URL Configuration**, ajouter :
    - `https://laurent-blb.github.io`
    - `https://laurent-blb.github.io/fai-registre-incidents-demo`
+
+Pour inviter un utilisateur, utiliser **Authentication → Users → Invite user**. L’application ne propose plus d’inscription libre. Définir aussi l’URL du site sur `https://laurent-blb.github.io/fai-registre-incidents-demo/` afin que les confirmations email ne renvoient pas vers `localhost:3000`.
 
 La clé `Publishable` est utilisée côté navigateur. Elle ne doit pas être confondue avec une clé `secret` ou `service_role`.
 
