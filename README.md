@@ -23,6 +23,8 @@ Registre d’incidents FAI avec tableau de bord, export CSV/PDF et stockage part
 
 Pour inviter un utilisateur, utiliser **Authentication → Users → Invite user**. L’application ne propose plus d’inscription libre. Définir aussi l’URL du site sur `https://laurent-blb.github.io/fai-registre-incidents-demo/` afin que les confirmations email ne renvoient pas vers `localhost:3000`.
 
+Le formulaire exige également le nom, le téléphone et l’email de la personne qui déclare l’incident. Réexécuter `supabase/schema.sql` après mise à jour pour ajouter les colonnes correspondantes.
+
 La clé `Publishable` est utilisée côté navigateur. Elle ne doit pas être confondue avec une clé `secret` ou `service_role`.
 
 La procédure détaillée pour nommer un administrateur et personnaliser les champs se trouve dans [`CUSTOMIZATION.md`](./CUSTOMIZATION.md).

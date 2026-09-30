@@ -51,6 +51,10 @@ Ne jamais attribuer le rôle admin depuis le navigateur. Le rôle doit être mod
 
 ## Personnaliser les champs du formulaire
 
+Chaque nouvel incident exige maintenant les informations du déclarant : **nom**, **numéro de téléphone** et **adresse email**. Elles sont enregistrées avec le ticket et apparaissent dans les rapports PDF et CSV.
+
+Après cette mise à jour, exécuter à nouveau `supabase/schema.sql` dans le SQL Editor. Les commandes `add column if not exists` ajoutent les colonnes sans supprimer les incidents existants.
+
 Les champs visibles sont définis dans [`index.html`](./index.html), dans le bloc `#incidentForm`.
 
 Exemples :

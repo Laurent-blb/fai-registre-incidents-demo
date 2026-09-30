@@ -61,6 +61,9 @@ create table if not exists public.incidents (
   date_ouverture timestamptz not null,
   source text not null default 'Autre',
   client text not null,
+  reporter_name text,
+  reporter_phone text,
+  reporter_email text,
   code_client text,
   site text,
   equipement text,
@@ -84,6 +87,11 @@ create table if not exists public.incidents (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+-- Migration non destructive pour les projets ayant déjà créé la table.
+alter table public.incidents add column if not exists reporter_name text;
+alter table public.incidents add column if not exists reporter_phone text;
+alter table public.incidents add column if not exists reporter_email text;
 
 create index if not exists incidents_date_ouverture_idx on public.incidents (date_ouverture desc);
 create index if not exists incidents_statut_idx on public.incidents (statut);
