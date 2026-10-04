@@ -29,6 +29,8 @@ Le rapport PDF contient désormais les KPI, des graphiques par statut, par prior
 
 Les administrateurs disposent également d’une route `#sessions` pour consulter l’historique des ouvertures et fermetures de session. Réexécuter `supabase/schema.sql` pour créer `session_events` et ses politiques RLS.
 
+Cette vue propose aussi un filtre par utilisateur et une période **Du / Au**. Pour tester, connectez-vous avec un utilisateur, déconnectez-vous, reconnectez-vous comme admin, puis ouvrez **Historique des sessions**. La requête SQL `select * from public.session_events order by occurred_at desc;` permet de vérifier directement les événements enregistrés.
+
 ## Architecture multi-vues
 
 L’application utilise maintenant une coque persistante avec sidebar et barre d’en-tête. La zone centrale monte une seule vue à la fois avec les routes hash suivantes :

@@ -251,3 +251,22 @@ Le registre ajoute une table `public.session_events`. Après exécution de `supa
 La vue **Historique des sessions** est uniquement affichée aux profils dont `profiles.role = 'admin'`. La politique RLS autorise uniquement un administrateur à lire tous les événements ; un utilisateur connecté ne peut insérer qu’un événement associé à son propre identifiant.
 
 Cette piste est un journal applicatif côté client. Pour une preuve d’audit réglementaire forte, il faut compléter ce mécanisme par les journaux Auth Supabase ou un service backend/Edge Function qui enregistre les événements côté serveur.
+
+La vue admin propose des filtres par adresse email et par dates **Du / Au**. Pour tester :
+
+1. exécuter `supabase/schema.sql` ;
+2. se connecter avec un compte `user`, puis se déconnecter ;
+3. se connecter avec le compte `admin` ;
+4. ouvrir **Historique des sessions** ;
+5. vérifier les événements `Ouverture de session` et `Fermeture de session` ;
+6. tester l’adresse email et les dates pour réduire la liste.
+
+Dans Supabase SQL Editor, contrôler les lignes avec :
+
+```sql
+select email, event_type, occurred_at, platform
+from public.session_events
+order by occurred_at desc;
+```
+
+Pour vérifier la séparation des droits, connectez-vous avec un compte simple : la route admin n’apparaît pas et une requête de lecture sur `session_events` doit retourner une erreur ou aucune ligne selon le client PostgREST. Avec le compte admin, la requête doit retourner l’historique complet.

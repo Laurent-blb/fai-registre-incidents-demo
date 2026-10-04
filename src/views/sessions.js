@@ -1,6 +1,7 @@
 export const sessionsView = () => `
   <section class="page-section view-page" aria-labelledby="sessions-title">
     <div class="section-heading"><div><p class="eyebrow">SÉCURITÉ</p><h2 id="sessions-title">Historique des sessions</h2><p class="muted">Consultez les ouvertures de session enregistrées pour tous les utilisateurs.</p></div></div>
+    <div class="filterbar session-filters"><label>Utilisateur<select id="sessionUserFilter"><option value="">Tous les utilisateurs</option></select></label><label>Du<input id="sessionDateFrom" type="date" /></label><label>Au<input id="sessionDateTo" type="date" /></label><button class="btn btn-ghost" id="resetSessionFilters">Réinitialiser</button></div>
     <div class="panel table-panel"><div class="table-scroll"><table><thead><tr><th>Date et heure</th><th>Utilisateur</th><th>Événement</th><th>Navigateur</th><th>Appareil</th></tr></thead><tbody id="sessionRows"><tr><td colspan="5" class="muted">Chargement de l’historique…</td></tr></tbody></table></div></div>
   </section>`;
 
