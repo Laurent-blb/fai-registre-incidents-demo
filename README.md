@@ -25,6 +25,16 @@ Pour inviter un utilisateur, utiliser **Authentication → Users → Invite user
 
 Le formulaire exige également le nom, le téléphone et l’email de la personne qui déclare l’incident. Réexécuter `supabase/schema.sql` après mise à jour pour ajouter les colonnes correspondantes.
 
+## Architecture multi-vues
+
+L’application utilise maintenant une coque persistante avec sidebar et barre d’en-tête. La zone centrale monte une seule vue à la fois avec les routes hash suivantes :
+
+- `#dashboard` : [`src/views/dashboard.js`](./src/views/dashboard.js) ;
+- `#incidents` : [`src/views/incidents.js`](./src/views/incidents.js) ;
+- `#quality` : [`src/views/quality.js`](./src/views/quality.js).
+
+Le routeur est géré dans `src/main.js`. Cliquer sur la sidebar remplace le contenu de `#pageContent` au lieu de faire défiler une longue page. Cette approche conserve l’URL, fonctionne sur GitHub Pages et permet d’ajouter d’autres vues indépendantes sans modifier la coque principale.
+
 La clé `Publishable` est utilisée côté navigateur. Elle ne doit pas être confondue avec une clé `secret` ou `service_role`.
 
 La procédure détaillée pour nommer un administrateur et personnaliser les champs se trouve dans [`CUSTOMIZATION.md`](./CUSTOMIZATION.md).

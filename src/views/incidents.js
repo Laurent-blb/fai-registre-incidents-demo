@@ -1,0 +1,8 @@
+export const incidentsView = () => `
+  <section class="page-section view-page" aria-labelledby="incidents-title">
+    <div class="section-heading"><div><p class="eyebrow">OPÉRATIONS</p><h2 id="incidents-title">Incidents enregistrés</h2><p id="resultCount" class="muted"></p></div><div class="section-actions"><button class="btn btn-ghost" id="exportCsv">⇩ Exporter CSV</button></div></div>
+    <div class="filterbar"><label class="filter-search"><span>⌕</span><input id="tableSearch" placeholder="Client, déclarant, équipement, IP, cause…" /></label><select id="statusFilter"><option value="">Tous les statuts</option></select><select id="priorityFilter"><option value="">Toutes les priorités</option></select><select id="slaFilter"><option value="">Tous les SLA</option><option value="En retard">En retard</option><option value="Oui">Respecté</option><option value="En cours">En cours</option></select><button class="btn btn-ghost" id="resetFilters">Réinitialiser</button></div>
+    <div class="panel table-panel"><div class="table-scroll"><table><thead><tr><th data-sort="id">Incident ↕</th><th data-sort="dateOuverture">Ouverture ↕</th><th>Client / déclarant</th><th data-sort="priorite">Priorité ↕</th><th data-sort="statut">Statut ↕</th><th data-sort="slaRespecte">SLA ↕</th><th>Responsable</th><th></th></tr></thead><tbody id="incidentRows"></tbody></table></div><div id="emptyState" class="empty-state hidden">Aucun incident ne correspond aux filtres actifs.</div></div>
+  </section>`;
+
+export const incidentsMeta = { title: 'Incidents enregistrés', description: 'Recherchez, filtrez et gérez les tickets du registre.' };
