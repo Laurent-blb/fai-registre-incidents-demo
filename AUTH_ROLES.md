@@ -243,3 +243,11 @@ Adapter le sous-réseau à votre LAN réel.
 Pour un test sans backend, utiliser Nginx Basic Auth avec un compte par technicien. Cela protège l’accès mais tous les utilisateurs ont les mêmes droits fonctionnels dans l’application.
 
 Pour passer en production, la prochaine étape consiste à remplacer le chargement `src/data.json` et `localStorage` par des appels `/api/...`, puis à ajouter les écrans de connexion, d’administration des utilisateurs et d’audit.
+
+## 11. Historique des sessions Supabase
+
+Le registre ajoute une table `public.session_events`. Après exécution de `supabase/schema.sql`, une ouverture ou une fermeture de session est enregistrée avec l’utilisateur, la date, le navigateur et la plateforme.
+
+La vue **Historique des sessions** est uniquement affichée aux profils dont `profiles.role = 'admin'`. La politique RLS autorise uniquement un administrateur à lire tous les événements ; un utilisateur connecté ne peut insérer qu’un événement associé à son propre identifiant.
+
+Cette piste est un journal applicatif côté client. Pour une preuve d’audit réglementaire forte, il faut compléter ce mécanisme par les journaux Auth Supabase ou un service backend/Edge Function qui enregistre les événements côté serveur.

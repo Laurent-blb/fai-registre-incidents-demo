@@ -27,6 +27,8 @@ Le formulaire exige également le nom, le téléphone et l’email de la personn
 
 Le rapport PDF contient désormais les KPI, des graphiques par statut, par priorité et par catégorie, puis le tableau détaillé des incidents et des informations du déclarant.
 
+Les administrateurs disposent également d’une route `#sessions` pour consulter l’historique des ouvertures et fermetures de session. Réexécuter `supabase/schema.sql` pour créer `session_events` et ses politiques RLS.
+
 ## Architecture multi-vues
 
 L’application utilise maintenant une coque persistante avec sidebar et barre d’en-tête. La zone centrale monte une seule vue à la fois avec les routes hash suivantes :

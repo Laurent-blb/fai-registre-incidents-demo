@@ -126,6 +126,28 @@ drop trigger if exists incidents_updated_at on public.incidents;
 create trigger incidents_updated_at before update on public.incidents
 for each row execute function public.set_updated_at();
 
+create table if not exists public.session_events (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  email text,
+  event_type text not null check (event_type in ('sign_in', 'sign_out')),
+  user_agent text,
+  platform text,
+  occurred_at timestamptz not null default now()
+);
+
+create index if not exists session_events_occurred_at_idx on public.session_events (occurred_at desc);
+create index if not exists session_events_user_id_idx on public.session_events (user_id);
+alter table public.session_events enable row level security;
+
+drop policy if exists "Users log their own session events" on public.session_events;
+create policy "Users log their own session events" on public.session_events
+  for insert to authenticated with check (auth.uid() = user_id);
+
+drop policy if exists "Admins read session events" on public.session_events;
+create policy "Admins read session events" on public.session_events
+  for select to authenticated using (public.is_admin());
+
 -- Après création de votre premier compte, exécuter cette commande une seule fois
 -- en remplaçant l'email :
 -- update public.profiles set role = 'admin'
