@@ -25,6 +25,8 @@ Pour inviter un utilisateur, utiliser **Authentication → Users → Invite user
 
 Le formulaire exige également le nom, le téléphone et l’email de la personne qui déclare l’incident. Réexécuter `supabase/schema.sql` après mise à jour pour ajouter les colonnes correspondantes.
 
+Le rapport PDF contient désormais les KPI, des graphiques par statut, par priorité et par catégorie, puis le tableau détaillé des incidents et des informations du déclarant.
+
 ## Architecture multi-vues
 
 L’application utilise maintenant une coque persistante avec sidebar et barre d’en-tête. La zone centrale monte une seule vue à la fois avec les routes hash suivantes :
