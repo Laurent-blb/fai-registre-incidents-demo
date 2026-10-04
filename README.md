@@ -31,6 +31,8 @@ Les administrateurs disposent également d’une route `#sessions` pour consulte
 
 Cette vue propose aussi un filtre par utilisateur et une période **Du / Au**. Pour tester, connectez-vous avec un utilisateur, déconnectez-vous, reconnectez-vous comme admin, puis ouvrez **Historique des sessions**. La requête SQL `select * from public.session_events order by occurred_at desc;` permet de vérifier directement les événements enregistrés.
 
+Le Dashboard admin ajoute un graphique des connexions réussies par jour sur 14 jours et une alerte en cas d’ouvertures multiples pour le même compte en 15 minutes. Les échecs répétés sont signalés localement après trois tentatives ; une surveillance globale des échecs nécessite un Auth Hook ou une Edge Function Supabase.
+
 ## Architecture multi-vues
 
 L’application utilise maintenant une coque persistante avec sidebar et barre d’en-tête. La zone centrale monte une seule vue à la fois avec les routes hash suivantes :
