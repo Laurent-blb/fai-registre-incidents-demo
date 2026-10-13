@@ -101,3 +101,7 @@ select public.promote_user_to_admin('admin@votre-domaine.com');
 5. Saisir l’ancien mot de passe, le nouveau et sa confirmation.
 
 Le nouveau mot de passe doit contenir au moins 8 caractères. La modification utilise `supabase.auth.updateUser` après vérification de l’ancien mot de passe ; aucun mot de passe n’est enregistré dans `profiles` ou dans l’application.
+
+## Diagnostic des vues administrateur
+
+Les vues **Historique des sessions** et **Utilisateurs** disposent maintenant d’un délai maximal de 10 secondes. En cas de table absente, de politique RLS incorrecte ou de problème réseau, elles affichent l’erreur Supabase au lieu de rester bloquées sur « Chargement… ».
