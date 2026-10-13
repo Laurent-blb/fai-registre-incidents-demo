@@ -272,3 +272,22 @@ order by occurred_at desc;
 Pour vérifier la séparation des droits, connectez-vous avec un compte simple : la route admin n’apparaît pas et une requête de lecture sur `session_events` doit retourner une erreur ou aucune ligne selon le client PostgREST. Avec le compte admin, la requête doit retourner l’historique complet.
 
 Le Dashboard admin affiche aussi les connexions réussies par jour sur 14 jours et signale au moins trois ouvertures pour la même adresse en 15 minutes. Les échecs de connexion sont comptés localement sur le navigateur qui les subit et déclenchent une alerte après trois tentatives en 15 minutes. Pour une alerte globale fiable sur les échecs de tous les utilisateurs, configurer un Auth Hook / Edge Function Supabase : une application statique ne peut pas écrire de façon fiable un événement avant authentification.
+
+## 12. Centralisation serveur des échecs
+
+Le fichier `supabase/functions/auth-audit/index.ts` fournit un endpoint Edge Function protégé par `AUTH_AUDIT_SECRET`. Il écrit dans `security_events` avec l’adresse email, l’IP éventuelle, le user-agent et les métadonnées. Déploiement indicatif :
+
+```bash
+supabase functions deploy auth-audit
+supabase secrets set AUTH_AUDIT_SECRET="une-valeur-longue-et-aleatoire"
+```
+
+Le secret doit être utilisé uniquement par un webhook/Auth Hook ou un collecteur de logs côté serveur. Ne pas l’intégrer à `src/main.js`. Après déploiement, provoquer plusieurs mots de passe incorrects, puis vérifier :
+
+```sql
+select event_type, email, occurred_at, metadata
+from public.security_events
+order by occurred_at desc;
+```
+
+Une fois les événements reçus, l’admin peut les exploiter dans les alertes du Dashboard et les consulter via une future vue sécurité dédiée. La fonction est volontairement séparée de l’interface statique afin de ne pas exposer la clé service.

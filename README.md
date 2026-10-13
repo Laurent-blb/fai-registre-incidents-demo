@@ -33,6 +33,18 @@ Cette vue propose aussi un filtre par utilisateur et une période **Du / Au**. P
 
 Le Dashboard admin ajoute un graphique des connexions réussies par jour sur 14 jours et une alerte en cas d’ouvertures multiples pour le même compte en 15 minutes. Les échecs répétés sont signalés localement après trois tentatives ; une surveillance globale des échecs nécessite un Auth Hook ou une Edge Function Supabase.
 
+## Administration, sécurité et audit
+
+La migration complémentaire [`supabase/next-migration.sql`](./supabase/next-migration.sql) ajoute :
+
+- les emails et statuts `active` / `suspended` aux profils ;
+- la page admin `#users` pour modifier les rôles et statuts ;
+- `security_events` pour les échecs d’authentification centralisés ;
+- `incident_audit` et un trigger SQL qui conserve chaque création, modification et suppression ;
+- la timeline visible dans chaque fiche incident.
+
+Exécutez cette migration dans **Supabase → SQL Editor** après `schema.sql`. La fonction [`supabase/functions/auth-audit/index.ts`](./supabase/functions/auth-audit/index.ts) est l’endpoint serveur prévu pour recevoir les événements Auth. Déployez-la avec la Supabase CLI, définissez `AUTH_AUDIT_SECRET` et reliez-la à votre mécanisme de journaux/Auth Hook. Le secret ne doit jamais être placé dans le JavaScript du navigateur.
+
 ## Architecture multi-vues
 
 L’application utilise maintenant une coque persistante avec sidebar et barre d’en-tête. La zone centrale monte une seule vue à la fois avec les routes hash suivantes :
