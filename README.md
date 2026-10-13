@@ -105,3 +105,9 @@ Le nouveau mot de passe doit contenir au moins 8 caractères. La modification ut
 ## Diagnostic des vues administrateur
 
 Les vues **Historique des sessions** et **Utilisateurs** disposent maintenant d’un délai maximal de 10 secondes. En cas de table absente, de politique RLS incorrecte ou de problème réseau, elles affichent l’erreur Supabase au lieu de rester bloquées sur « Chargement… ».
+
+## Sessions persistantes et inactivité
+
+La session Supabase est maintenant explicitement persistante dans `localStorage` et ses jetons sont renouvelés automatiquement. Une actualisation de la page ne doit donc plus demander une nouvelle connexion, tant que le stockage du navigateur n’est pas effacé et que la session n’a pas expiré côté Supabase.
+
+Pour limiter les sessions oubliées, l’application déconnecte automatiquement l’utilisateur après **5 minutes sans activité**. Les clics, frappes clavier, mouvements de souris, défilements et interactions tactiles réinitialisent ce délai. Un avertissement est affiché 30 secondes avant la déconnexion.
