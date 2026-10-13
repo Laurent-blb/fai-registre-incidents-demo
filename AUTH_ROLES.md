@@ -291,3 +291,9 @@ order by occurred_at desc;
 ```
 
 Une fois les événements reçus, l’admin peut les exploiter dans les alertes du Dashboard et les consulter via une future vue sécurité dédiée. La fonction est volontairement séparée de l’interface statique afin de ne pas exposer la clé service.
+
+## 13. Pièces jointes et alertes opérationnelles
+
+Exécuter `supabase/quality-dashboard-migration.sql` après les migrations précédentes. Les fichiers sont stockés dans le bucket privé `incident-attachments` et chaque objet est associé à `incident_attachments`. Les URLs sont signées temporairement par l’application ; le bucket ne doit pas être rendu public.
+
+La table `security_alerts` conserve les alertes opérationnelles avec un niveau (`information`, `attention`, `critical`), un statut et une empreinte unique. Le trigger SQL crée automatiquement les alertes pour les incidents critiques non affectés et les dépassements SLA.

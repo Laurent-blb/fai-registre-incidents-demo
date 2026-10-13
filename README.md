@@ -68,3 +68,17 @@ python3 -m http.server 8000
 ```
 
 Puis ouvrir `http://localhost:8000`.
+
+## Qualité, pièces jointes et alertes opérationnelles
+
+La migration [`supabase/quality-dashboard-migration.sql`](./supabase/quality-dashboard-migration.sql) ajoute :
+
+- `incident_attachments` et le bucket privé `incident-attachments` ;
+- des politiques Storage réservant la lecture aux utilisateurs authentifiés ;
+- `security_alerts` avec niveaux `information`, `attention` et `critical` ;
+- les alertes automatiques pour incidents critiques non affectés et dépassements SLA ;
+- région, première prise en charge et compteur de réouvertures sur les incidents.
+
+Le Dashboard propose des filtres globaux par période, site/région, responsable, catégorie et client. Les KPI, graphiques et indicateurs de prise en charge/résolution sont recalculés selon ces filtres. Le bouton d’export des graphiques ouvre l’impression navigateur, ce qui permet une exportation PDF ou image via le dialogue d’impression.
+
+Les rapports périodiques par email nécessitent une Edge Function planifiée et un fournisseur SMTP/email. La base est prête pour ces alertes, mais aucun email ne sera envoyé tant qu’un fournisseur et des destinataires n’auront pas été configurés.
