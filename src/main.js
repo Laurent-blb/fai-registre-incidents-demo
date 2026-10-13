@@ -1,5 +1,5 @@
 import seed from './data.json' with { type: 'json' };
-import { supabase } from './supabase.js?v=20261013-3';
+import { supabase } from './supabase.js?v=20261013-4';
 import { dashboardView, dashboardMeta } from './views/dashboard.js';
 import { incidentsView, incidentsMeta } from './views/incidents.js';
 import { qualityView, qualityMeta } from './views/quality.js';
@@ -9,7 +9,7 @@ import { usersView, usersMeta } from './views/users.js';
 const cached=JSON.parse(localStorage.getItem('fai-registre-records-cache')||'null');
 const state={records:cached||seed.records.map(r=>({...r})),query:'',status:'',priority:'',sla:'',sort:'dateOuverture',dir:-1,session:null,role:'user',remote:false,loading:false,route:'dashboard',sessionEvents:[],securityEvents:[],users:[],dateFrom:'',dateTo:'',site:'',owner:'',category:'',client:'',operationalAlerts:[]};
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-const APP_VERSION='2026.10.13.3';const INACTIVITY_LIMIT=5*60*1000;let inactivityTimer=null;let inactivityWarningTimer=null;
+const APP_VERSION='2026.10.13.4';const INACTIVITY_LIMIT=5*60*1000;let inactivityTimer=null;let inactivityWarningTimer=null;
 function armInactivityTimeout(){clearTimeout(inactivityTimer);clearTimeout(inactivityWarningTimer);if(!state.session)return;inactivityWarningTimer=setTimeout(()=>toast('Déconnexion automatique dans 30 secondes pour inactivité.'),INACTIVITY_LIMIT-30000);inactivityTimer=setTimeout(()=>{if(state.session){toast('Vous avez été déconnecté après 5 minutes d’inactivité.');signOut(true)}},INACTIVITY_LIMIT)}
 function registerActivity(){if(state.session)armInactivityTimeout()}
 function setupInactivity(){['click','keydown','mousemove','mousedown','touchstart','scroll'].forEach(event=>document.addEventListener(event,registerActivity,{passive:true}));document.addEventListener('visibilitychange',()=>{if(!document.hidden)registerActivity()})}
