@@ -61,3 +61,22 @@ begin
 end; $$;
 drop trigger if exists incidents_audit_trigger on public.incidents;
 create trigger incidents_audit_trigger after insert or update or delete on public.incidents for each row execute function public.audit_incident_changes();
+
+-- Amorçage du premier administrateur.
+-- Pour des raisons de sécurité, ne créez pas auth.users et ne stockez jamais un mot de passe en clair dans une migration.
+-- 1) Créez d'abord le compte dans Supabase > Authentication > Users avec son email et son mot de passe temporaire.
+-- 2) Exécutez ensuite : select public.promote_user_to_admin('admin@exemple.com');
+create or replace function public.promote_user_to_admin(target_email text)
+returns uuid language plpgsql security definer set search_path=public as $$
+declare target_id uuid;
+begin
+  if auth.uid() is not null and not public.is_admin() then
+    raise exception 'Seul un administrateur peut promouvoir un utilisateur';
+  end if;
+  select id into target_id from auth.users where lower(email)=lower(target_email) limit 1;
+  if target_id is null then raise exception 'Aucun compte Auth trouvé pour cet email'; end if;
+  insert into public.profiles(id,email,role,status) values(target_id,target_email,'admin','active')
+  on conflict(id) do update set role='admin',status='active',email=excluded.email,updated_at=now();
+  return target_id;
+end; $$;
+revoke all on function public.promote_user_to_admin(text) from public, anon, authenticated;

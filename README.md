@@ -82,3 +82,22 @@ La migration [`supabase/quality-dashboard-migration.sql`](./supabase/quality-das
 Le Dashboard propose des filtres globaux par période, site/région, responsable, catégorie et client. Les KPI, graphiques et indicateurs de prise en charge/résolution sont recalculés selon ces filtres. Le bouton d’export des graphiques ouvre l’impression navigateur, ce qui permet une exportation PDF ou image via le dialogue d’impression.
 
 Les rapports périodiques par email nécessitent une Edge Function planifiée et un fournisseur SMTP/email. La base est prête pour ces alertes, mais aucun email ne sera envoyé tant qu’un fournisseur et des destinataires n’auront pas été configurés.
+
+## Premier administrateur et mot de passe
+
+La migration `supabase/next-migration.sql` contient la fonction sécurisée `public.promote_user_to_admin(email)`. Elle ne crée pas directement un mot de passe dans SQL : les mots de passe ne doivent jamais être stockés en clair dans une migration.
+
+Procédure :
+
+1. Créer le compte dans **Supabase → Authentication → Users** avec l’email réel et un mot de passe temporaire.
+2. Exécuter dans le SQL Editor :
+
+```sql
+select public.promote_user_to_admin('admin@votre-domaine.com');
+```
+
+3. Se connecter dans l’application.
+4. Utiliser le bouton **Mot de passe** dans la barre supérieure.
+5. Saisir l’ancien mot de passe, le nouveau et sa confirmation.
+
+Le nouveau mot de passe doit contenir au moins 8 caractères. La modification utilise `supabase.auth.updateUser` après vérification de l’ancien mot de passe ; aucun mot de passe n’est enregistré dans `profiles` ou dans l’application.

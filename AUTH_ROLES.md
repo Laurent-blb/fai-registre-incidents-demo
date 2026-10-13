@@ -297,3 +297,9 @@ Une fois les événements reçus, l’admin peut les exploiter dans les alertes 
 Exécuter `supabase/quality-dashboard-migration.sql` après les migrations précédentes. Les fichiers sont stockés dans le bucket privé `incident-attachments` et chaque objet est associé à `incident_attachments`. Les URLs sont signées temporairement par l’application ; le bucket ne doit pas être rendu public.
 
 La table `security_alerts` conserve les alertes opérationnelles avec un niveau (`information`, `attention`, `critical`), un statut et une empreinte unique. Le trigger SQL crée automatiquement les alertes pour les incidents critiques non affectés et les dépassements SLA.
+
+## 14. Premier administrateur et changement de mot de passe
+
+Ne mettez jamais un mot de passe dans un fichier SQL versionné. Créez le compte dans Supabase Auth, puis exécutez `select public.promote_user_to_admin('email-réel');`. La fonction est volontairement non exécutable par `anon` et `authenticated` afin de réserver cette opération au SQL Editor ou à un contexte administrateur autorisé.
+
+Les utilisateurs connectés peuvent changer eux-mêmes leur mot de passe avec le bouton **Mot de passe**. L’application vérifie l’ancien mot de passe, impose un nouveau mot de passe d’au moins 8 caractères et appelle Supabase Auth. Le mot de passe n’est jamais écrit dans la table `profiles`.
