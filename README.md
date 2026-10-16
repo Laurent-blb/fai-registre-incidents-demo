@@ -116,3 +116,8 @@ Pour limiter les sessions oubliées, l’application déconnecte automatiquement
 ## Correctif suppression admin
 
 Si Supabase affiche une erreur `incident_audit_incident_id_fkey` ou `public.incident_attachments` introuvable, exécutez `supabase/incident-delete-fix.sql` dans le SQL Editor Supabase. Cette migration crée les pièces jointes, corrige l’audit des suppressions et active la fonction sécurisée `delete_incident_admin`.
+
+
+## Colonnes avancées des incidents
+
+Si Supabase affiche une colonne `reopened_count` absente du schema cache, exécutez `supabase/incident-columns-fix.sql` puis rechargez le schéma avec `notify pgrst, 'reload schema'`. La v2026.10.16.4 réessaie aussi l’enregistrement sans les colonnes avancées pour rester compatible temporairement.
