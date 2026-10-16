@@ -111,3 +111,8 @@ Les vues **Historique des sessions** et **Utilisateurs** disposent maintenant d�
 La session Supabase est maintenant explicitement persistante dans `localStorage` et ses jetons sont renouvelés automatiquement. Une actualisation de la page ne doit donc plus demander une nouvelle connexion, tant que le stockage du navigateur n’est pas effacé et que la session n’a pas expiré côté Supabase.
 
 Pour limiter les sessions oubliées, l’application déconnecte automatiquement l’utilisateur après **5 minutes sans activité**. Les clics, frappes clavier, mouvements de souris, défilements et interactions tactiles réinitialisent ce délai. Un avertissement est affiché 30 secondes avant la déconnexion.
+
+
+## Correctif suppression admin
+
+Si Supabase affiche une erreur `incident_audit_incident_id_fkey` ou `public.incident_attachments` introuvable, exécutez `supabase/incident-delete-fix.sql` dans le SQL Editor Supabase. Cette migration crée les pièces jointes, corrige l’audit des suppressions et active la fonction sécurisée `delete_incident_admin`.
