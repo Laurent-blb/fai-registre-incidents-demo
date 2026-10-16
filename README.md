@@ -1,6 +1,6 @@
-# FAI Registre Incidents
+# DRT AllSolutions — Registre des incidents
 
-Registre d’incidents FAI avec tableau de bord, export CSV/PDF et stockage partagé Supabase.
+Registre d’incidents DRT AllSolutions avec tableau de bord, export CSV/PDF et stockage partagé Supabase.
 
 ## Fonctionnement
 
@@ -121,3 +121,8 @@ Si Supabase affiche une erreur `incident_audit_incident_id_fkey` ou `public.inci
 ## Colonnes avancées des incidents
 
 Si Supabase affiche une colonne `reopened_count` absente du schema cache, exécutez `supabase/incident-columns-fix.sql` puis rechargez le schéma avec `notify pgrst, 'reload schema'`. La v2026.10.16.4 réessaie aussi l’enregistrement sans les colonnes avancées pour rester compatible temporairement.
+
+
+## Synchronisation des utilisateurs
+
+La migration `supabase/admin-users-sessions-fix.sql` synchronise les comptes créés dans Supabase Authentication vers `public.profiles` et permet à l’admin de consulter l’historique complet des sessions.

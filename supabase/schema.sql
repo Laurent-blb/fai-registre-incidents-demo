@@ -1,4 +1,4 @@
--- FAI Registre Incidents
+-- DRT AllSolutions — Registre des incidents
 -- À exécuter dans Supabase > SQL Editor.
 
 create table if not exists public.profiles (
